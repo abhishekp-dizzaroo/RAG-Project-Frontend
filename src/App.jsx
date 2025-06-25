@@ -22,6 +22,7 @@ const App = () => {
     { id: 2, title: 'Research Questions', active: false },
     { id: 3, title: 'Data Processing', active: false },
   ]);
+  const [backend, setBackend] = useState('weaviate');
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -40,8 +41,8 @@ const App = () => {
     setIsLoading(true);
 
     try {
-      // Send query to backend API
-      const response = await apiService.generate_response(currentInput);
+      // Send query to backend API (pass backend as argument for future use)
+      const response = await apiService.generate_response(currentInput, backend);
       
       // Add assistant response
       const assistantMessage = {
@@ -105,6 +106,8 @@ const App = () => {
           <Header 
             onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
             currentConversation={currentConversation}
+            backend={backend}
+            onBackendChange={setBackend}
           />
         </div>
 
